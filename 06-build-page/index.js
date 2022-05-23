@@ -45,7 +45,8 @@ async function getComponentsData(component) {
 }
 
 function replaceComponent(title, data) {
-  return templateHtml.replaceAll(title, data);
+  const regex = new RegExp(title, 'g');
+  return templateHtml.replace(regex, data);
 }
 
 async function createProject(html) {
@@ -70,6 +71,7 @@ async function bundleCss() {
       readStream.on('end', () => {
         ws.write(stylesArray.join('') + '\n');
       });
+      readStream.on('error', err => console.log(err.message));
     }
   }
 }
